@@ -115,8 +115,9 @@ Once the build finishes and shows `Live`:
 
 ---
 
-## 🛠️ Local Development (Unchanged)
+## 🛠️ Local Development
 
-Your local development workflow remains 100% operational:
-- Run `start.bat` to launch both backend (`http://127.0.0.1:8000`) and frontend (`http://localhost:5173`) locally.
-- Run `stop.bat` to terminate local development processes.
+To run locally across Windows, macOS, or Linux:
+- **Frontend:** `npm run dev` (runs Vite dev server on `http://localhost:5173`)
+- **Backend:** `cd backend && uvicorn app.main:app --reload` (runs FastAPI on `http://127.0.0.1:8000`)
+- **Or Test Fullstack Container Locally:** `docker build -t clausent . && docker run -p 8000:8000 clausent`
