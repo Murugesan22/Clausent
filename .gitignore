@@ -1,0 +1,56 @@
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+
+# SQLite & Local Databases
+*.db
+*.sqlite
+*.sqlite3
+backend/clausent.db
+
+# Storage & Runtime Data (keep directory structure with .gitkeep)
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+backend/data/reports/*
+!backend/data/reports/.gitkeep
+backend/data/models/*
+!backend/data/models/.gitkeep
+
+# IDE & OS Files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
