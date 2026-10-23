@@ -143,3 +143,27 @@ export function getCsvReportUrl(id) {
   return `${API_BASE}/reports/${id}/csv`;
 }
 
+export async function getEvaluationMetrics() {
+  const res = await fetch(`${API_BASE}/evaluation/metrics`);
+  if (!res.ok) {
+    throw new Error("Failed to load evaluation metrics.");
+  }
+  return await res.json();
+}
+
+export async function testClauseEvaluation(text, expectedCategory = null, expectedRisk = null) {
+  const res = await fetch(`${API_BASE}/evaluation/test-clause`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      text,
+      expected_category: expectedCategory,
+      expected_risk: expectedRisk
+    }),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to evaluate clause.");
+  }
+  return await res.json();
+}
+

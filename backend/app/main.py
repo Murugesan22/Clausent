@@ -10,7 +10,7 @@ from app.config import settings, BASE_DIR
 from app.core.logging_config import logger
 from app.core.exceptions import ClausentBaseException
 from app.database.connection import init_db
-from app.api.routes import health, documents, analysis, reports
+from app.api.routes import health, documents, analysis, reports, evaluation
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -67,6 +67,7 @@ app.include_router(health.router, prefix="/api")
 app.include_router(documents.router, prefix="/api")
 app.include_router(analysis.router, prefix="/api")
 app.include_router(reports.router, prefix="/api")
+app.include_router(evaluation.router, prefix="/api")
 
 # Static frontend assets for unified production deployment
 DIST_DIR = BASE_DIR.parent / "dist"
