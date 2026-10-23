@@ -5,6 +5,19 @@ from app.main import app
 
 client = TestClient(app)
 
+
+def test_evaluation_metrics_and_live_comparison():
+    response = client.get("/api/evaluation/metrics")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["comparison"]["status"] == "smoke_test_only"
+    assert payload["comparison"]["sample_count"] == 6
+    assert len(payload["comparison"]["models"]) == 2
+    for model in payload["comparison"]["models"]:
+        assert 0 <= model["classification"]["macro_f1"] <= 100
+        assert 0 <= model["risk"]["macro_f1"] <= 100
+    assert "not an independent or held-out benchmark" in payload["comparison"]["description"]
+
 SAMPLE_CONTRACT_TXT = """
 1. Definitions
 Capitalized terms used in this Agreement shall have the meanings ascribed to them in Schedule A.

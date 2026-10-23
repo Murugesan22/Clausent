@@ -5,6 +5,91 @@ import time
 from app.services.classification_service import ClassificationService
 from app.services.risk_assessment_service import RiskAssessmentService
 
+
+# Small, transparent smoke-test set. These examples exercise the current rule
+# engine; they are not a CUAD/held-out benchmark and must not be presented as
+# evidence of generalization performance.
+COMPARISON_CASES = [
+    ("Limitation of Liability", "high", "In no event shall either party's liability be limited, and each party shall be fully liable for all damages."),
+    ("Automatic Renewal", "high", "This agreement automatically renews for successive one-year terms unless notice is given 90 days before expiry."),
+    ("Termination", "high", "The provider may terminate this agreement immediately without notice."),
+    ("Indemnification", "high", "Contractor shall indemnify, defend, and hold harmless Client from any and all claims and attorneys' fees."),
+    ("Confidentiality", "low", "Each party shall protect the other's confidential information using reasonable care."),
+    ("Payment Terms", "low", "Client shall remit payment within thirty days of invoice date."),
+]
+
+
+def _simple_keyword_baseline(text: str) -> str:
+    """Intentionally basic reference baseline for the fixture comparison."""
+    value = text.lower()
+    for terms, label in (
+        (("liability", "liable", "damages"), "Limitation of Liability"),
+        (("renew", "successive"), "Automatic Renewal"),
+        (("terminat", "cancel"), "Termination"),
+        (("indemnif", "hold harmless"), "Indemnification"),
+        (("confidential", "non-disclosure"), "Confidentiality"),
+        (("payment", "invoice", "remit"), "Payment Terms"),
+    ):
+        if any(term in value for term in terms):
+            return label
+    return "General Provisions"
+
+
+def _classification_metrics(predictions: List[str], expected: List[str]) -> Dict[str, Any]:
+    labels = sorted(set(expected))
+    per_label = []
+    for label in labels:
+        tp = sum(p == label and y == label for p, y in zip(predictions, expected))
+        fp = sum(p == label and y != label for p, y in zip(predictions, expected))
+        fn = sum(p != label and y == label for p, y in zip(predictions, expected))
+        precision = tp / (tp + fp) if tp + fp else 0.0
+        recall = tp / (tp + fn) if tp + fn else 0.0
+        f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+        per_label.append((precision, recall, f1))
+    n = max(1, len(expected))
+    return {
+        "accuracy": round(100 * sum(p == y for p, y in zip(predictions, expected)) / n, 1),
+        "macro_precision": round(100 * sum(x[0] for x in per_label) / max(1, len(per_label)), 1),
+        "macro_recall": round(100 * sum(x[1] for x in per_label) / max(1, len(per_label)), 1),
+        "macro_f1": round(100 * sum(x[2] for x in per_label) / max(1, len(per_label)), 1),
+    }
+
+
+def _smoke_comparison() -> Dict[str, Any]:
+    expected_categories = [case[0] for case in COMPARISON_CASES]
+    expected_risks = [case[1] for case in COMPARISON_CASES]
+    baseline_categories = []
+    active_categories = []
+    baseline_risks = []
+    active_risks = []
+
+    for _, _, text in COMPARISON_CASES:
+        baseline_category = _simple_keyword_baseline(text)
+        baseline_categories.append(baseline_category)
+        baseline_risks.append(RiskAssessmentService.assess_risk(text, baseline_category).risk_level)
+
+        result = ClassificationService.classify_clause(text)
+        active_categories.append(result.category)
+        active_risks.append(RiskAssessmentService.assess_risk(text, result.category).risk_level)
+
+    rows = []
+    for name, categories, risks, kind in (
+        ("Simple keyword baseline", baseline_categories, baseline_risks, "rule baseline"),
+        ("Current CLAUSENT pipeline", active_categories, active_risks, "regex classification + rule risk assessment"),
+    ):
+        rows.append({
+            "name": name,
+            "type": kind,
+            "classification": _classification_metrics(categories, expected_categories),
+            "risk": _classification_metrics(risks, expected_risks),
+        })
+    return {
+        "status": "smoke_test_only",
+        "description": "Computed at request time on the six built-in examples in evaluation.py. This is a functional comparison, not an independent or held-out benchmark.",
+        "sample_count": len(COMPARISON_CASES),
+        "models": rows,
+    }
+
 router = APIRouter(prefix="/evaluation", tags=["Evaluation & Benchmarks"])
 
 EVALUATION_METRICS = {
@@ -187,7 +272,18 @@ def get_metrics():
     Returns comprehensive evaluation and benchmarking metrics across CUAD classification,
     risk assessment, multilingual NLP, and hybrid SLM-LLM orchestration.
     """
-    return EVALUATION_METRICS
+    # Historical scorecard values below are retained for the existing UI, but
+    # they are not backed by training/evaluation artifacts in this repository.
+    # The smoke comparison is computed from the active code on every request.
+    return {
+        **EVALUATION_METRICS,
+        "comparison": _smoke_comparison(),
+        "benchmark_notice": (
+            "The displayed CUAD/multilingual/SLM-LLM scorecard values are static and "
+            "cannot be verified from this repository. Only the small built-in smoke "
+            "comparison is computed from the current rule engine; it is not a held-out benchmark."
+        ),
+    }
 
 @router.post("/test-clause")
 def test_clause_evaluation(payload: Dict[str, Any] = Body(...)):

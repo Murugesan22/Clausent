@@ -831,18 +831,39 @@ function EvaluationView({ backendStatus, go }) {
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [evalResult, setEvalResult] = useState(null);
   const [liveMetrics, setLiveMetrics] = useState(BENCHMARK_DATA);
+  const [metricsNotice, setMetricsNotice] = useState(
+    "The scorecard figures shown below are static display data and are not independently validated by this repository."
+  );
 
   // Attempt to load metrics from backend on mount if online
   useEffect(() => {
     if (backendStatus.online) {
       api.getEvaluationMetrics()
         .then((data) => {
-          if (data && data.summary) {
-            setLiveMetrics((prev) => ({
-              ...prev,
-              summary: { ...prev.summary, ...data.summary },
-              categories: data.cuad_classification ? data.cuad_classification.categories : prev.categories,
-            }));
+          if (data) {
+            setMetricsNotice(data.benchmark_notice || "Benchmark metrics are not verified by the backend.");
+            setLiveMetrics((prev) => {
+              const categories = data.cuad_classification?.categories;
+              const models = data.comparison?.models?.map((row) => ({
+                name: row.name,
+                type: row.type,
+                precision: row.classification.macro_precision,
+                recall: row.classification.macro_recall,
+                f1: row.classification.macro_f1,
+                riskF1: row.risk.macro_f1,
+                latency_ms: "—",
+              }));
+              return {
+                ...prev,
+                summary: { ...prev.summary, ...(data.summary || {}) },
+                categories: categories?.map((category) => ({
+                  ...category,
+                  risk: category.risk || category.risk_bias || "Unspecified",
+                  desc: category.desc || "Category description not provided by API.",
+                })) || prev.categories,
+                models: models?.length ? models : prev.models,
+              };
+            });
           }
         })
         .catch((err) => {
@@ -984,24 +1005,24 @@ function EvaluationView({ backendStatus, go }) {
       {/* Header */}
       <div className="eval-header">
         <div className="eval-header-info">
-          <span className="eyebrow">Academic Benchmark & System Evaluation</span>
-          <h2>Model Evaluation & Performance Metrics</h2>
+            <span className="eyebrow">Rule Engine Evaluation</span>
+            <h2>Evaluation & Comparison Metrics</h2>
           <p>
             Rigorous quantitative validation of Clausent&apos;s CUAD-aligned 13-category clause classifier,
             deterministic risk scoring calibration, multilingual Indic NLP fidelity, and hybrid SLM–LLM orchestration efficiency.
           </p>
           <div className="eval-pills-row">
             <span className="eval-tag accent">
-              📚 {liveMetrics.summary.dataset}
+              📚 {liveMetrics.summary.dataset} · unverified
             </span>
             <span className="eval-tag">
-              📊 9,280 Held-Out Test Clauses
+              📊 Reported sample count is unverified
             </span>
             <span className="eval-tag">
               👥 Inter-Annotator κ = {liveMetrics.summary.inter_annotator_kappa}
             </span>
             <span className="eval-tag">
-              {backendStatus.online ? "🟢 Connected to Live Evaluation Engine" : "🟡 Standalone Validated Benchmark"}
+              {backendStatus.online ? "🟢 Live rule-engine smoke test available" : "🟡 Backend unavailable · static scorecard only"}
             </span>
           </div>
         </div>
@@ -1014,6 +1035,10 @@ function EvaluationView({ backendStatus, go }) {
             Analyze a Contract →
           </button>
         </div>
+      </div>
+
+      <div role="note" className="eval-panel" style={{ marginTop: 12, borderLeft: "4px solid var(--risk-med)" }}>
+        <b>Metric provenance:</b> {metricsNotice} The live comparison below runs the current rule engine against a simple keyword baseline on six built-in examples only; it is a smoke test, not a general performance estimate.
       </div>
 
       {/* Top 5 KPI Scorecard */}
@@ -1101,9 +1126,9 @@ function EvaluationView({ backendStatus, go }) {
             <div className="eval-panel">
               <div className="eval-panel-head">
                 <div>
-                  <div className="eval-panel-title">Model Architecture Benchmark Comparison</div>
-                  <div className="eval-panel-sub">
-                    Evaluating clause categorization accuracy across regex baseline, dense Legal-BERT representation, and Clausent&apos;s hybrid ensemble.
+              <div className="eval-panel-title">Live Smoke-Test Comparison</div>
+              <div className="eval-panel-sub">
+                    Current rule-based CLAUSENT pipeline compared with a simple keyword baseline using the same built-in examples.
                   </div>
                 </div>
               </div>
@@ -1116,17 +1141,18 @@ function EvaluationView({ backendStatus, go }) {
                     <th>Macro Precision</th>
                     <th>Macro Recall</th>
                     <th>Macro F1 Score</th>
+                    <th>Risk Macro F1</th>
                     <th>Inference Speed</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {BENCHMARK_DATA.models.map((m) => (
-                    <tr key={m.name} style={{ background: m.name.includes("Selected") ? "var(--accent-soft)" : "transparent" }}>
+                  {liveMetrics.models.map((m) => (
+                    <tr key={m.name} style={{ background: m.name.includes("Current") ? "var(--accent-soft)" : "transparent" }}>
                       <td>
                         <b>{m.name}</b>
-                        {m.name.includes("Selected") && (
-                          <span style={{ marginLeft: 8, fontSize: 11, background: "var(--accent)", color: "#fff", padding: "2px 6px", borderRadius: 3, fontWeight: 600 }}>
-                            ACTIVE PIPELINE
+                          {m.name.includes("Current") && (
+                            <span style={{ marginLeft: 8, fontSize: 11, background: "var(--accent)", color: "#fff", padding: "2px 6px", borderRadius: 3, fontWeight: 600 }}>
+                            LIVE SMOKE TEST
                           </span>
                         )}
                       </td>
@@ -1141,7 +1167,8 @@ function EvaluationView({ backendStatus, go }) {
                           <span className="eval-meter-val mono">{m.f1.toFixed(1)}%</span>
                         </div>
                       </td>
-                      <td className="mono" style={{ color: "var(--ink-soft)" }}>{m.latency_ms} ms</td>
+                      <td className="mono">{Number.isFinite(m.riskF1) ? `${m.riskF1.toFixed(1)}%` : "—"}</td>
+                      <td className="mono" style={{ color: "var(--ink-soft)" }}>{typeof m.latency_ms === "number" ? `${m.latency_ms} ms` : m.latency_ms}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -1152,9 +1179,9 @@ function EvaluationView({ backendStatus, go }) {
             <div className="eval-panel">
               <div className="eval-panel-head">
                 <div>
-                  <div className="eval-panel-title">CUAD-13 Contract Taxonomy Performance (9,280 Clauses)</div>
+                  <div className="eval-panel-title">Static CUAD-Style Category Scorecard (Unverified)</div>
                   <div className="eval-panel-sub">
-                    Class-level Precision, Recall, and F1 metrics on held-out commercial contracts.
+                    Illustrative values only; no CUAD dataset, held-out evaluation split, or results artifact is included in this repository.
                   </div>
                 </div>
 
