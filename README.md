@@ -2,7 +2,7 @@
 
 > **A comprehensive legal-tech platform designed for individuals, startups, freelancers, and small businesses to demystify complex contracts, identify legal vulnerabilities, explain contractual obligations in clear natural language, and generate audit-ready risk reports across English, Tamil, Hindi, Malayalam, and Telugu.**
 
-> 🚀 **Deploy to Render:** Ready for 1-click cloud deployment. See [DEPLOY_TO_RENDER.md](DEPLOY_TO_RENDER.md) for full instructions.
+> 🚀 **Deploy to Render:** Ready for 1-click cloud deployment. See [https://clausent.onrender.com/](DEPLOY_TO_RENDER.md) for full instructions.
 
 ---
 
