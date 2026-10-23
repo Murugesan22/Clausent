@@ -1693,7 +1693,7 @@ function EvaluationView({ backendStatus, go }) {
         <p style={{ fontSize: 13, color: "var(--ink-soft)", marginTop: 8, lineHeight: 1.6 }}>
           1. <b>CUAD (Contract Understanding Atticus Dataset):</b> Hendrycks et al., <i>&quot;CUAD: An Expert-Annotated NLP Dataset for Legal Contract Review&quot;</i>, NeurIPS 2021. 510 commercial contracts comprising 13,000+ legal annotations across 41 classes, subsetted to 13 primary risk categories.<br />
           2. <b>LEGAL-BERT:</b> Chalkidis et al., <i>&quot;LEGAL-BERT: The Muppets straight out of Law School&quot;</i>, EMNLP 2020. Evaluated for legal contextual embeddings (`nlpaueb/legal-bert-base-uncased`).<br />
-          3. <b>IndicTrans2 & NLLB:</b> Gala et al., <i>&quot;Towards High-Quality and Accessible Machine Translation for Indic Languages&quot;</i>, 2023. Benchmark scores evaluated across Tamil, Hindi, Malayalam, and Telugu test sets.
+          3. <b>NLLB:</b> NLLB Team, <i>&quot;No Language Left Behind: Scaling Human-Centered Machine Translation&quot;</i>, 2022. Referenced here as related work for multilingual machine translation.
         </p>
       </div>
     </section>
