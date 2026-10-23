@@ -687,62 +687,62 @@ function ClauseDetail({ clause, _analysisId, dashLang, onSwitchLang, reasonOpen,
 
 const BENCHMARK_DATA = {
   summary: {
-    macro_f1: 91.4,
-    macro_precision: 91.9,
-    macro_recall: 91.0,
-    risk_recall_high: 96.8,
-    false_negative_rate: 3.2,
-    multilingual_bleu: 48.2,
-    multilingual_chrf: 69.4,
-    slm_faithfulness: 88.6,
-    hallucination_rate: 2.4,
-    compute_cost_reduction: 82.4,
-    total_test_clauses: 9280,
-    total_annotated_contracts: 510,
-    inter_annotator_kappa: 0.86,
-    last_validated: "October 2026",
-    dataset: "CUAD v1.0 (Atticus Project) + IndicLegal Multilingual Corpus"
+    macro_f1: 78.2,
+    macro_precision: 77.4,
+    macro_recall: 79.1,
+    risk_recall_high: 78.6,
+    false_negative_rate: 21.4,
+    multilingual_bleu: 36.8,
+    multilingual_chrf: 54.1,
+    slm_faithfulness: 74.5,
+    hallucination_rate: 14.0,
+    compute_cost_reduction: 42.6,
+    total_test_clauses: null,
+    total_annotated_contracts: null,
+    inter_annotator_kappa: "Not measured",
+    last_validated: "Not measured",
+    dataset: "Illustrative scorecard values — no benchmark dataset verified"
   },
   models: [
-    { name: "Keyword / Regex Taxonomy Baseline", precision: 80.2, recall: 76.8, f1: 78.4, latency_ms: 1.4, type: "Rule-based baseline" },
-    { name: "Legal-BERT Dense Embeddings (nlpaueb)", precision: 88.4, recall: 86.0, f1: 87.1, latency_ms: 18.5, type: "Transformer encoder" },
-    { name: "CLAUSENT Hybrid Pipeline (Ensemble)", precision: 91.9, recall: 91.0, f1: 91.4, latency_ms: 21.2, type: "Production pipeline (Selected)" }
+    { name: "Keyword / Regex Taxonomy Baseline", precision: 72.4, recall: 70.8, f1: 71.6, latency_ms: 1.4, type: "Illustrative rule-based baseline" },
+    { name: "Legal-BERT Dense Embeddings (nlpaueb)", precision: 76.1, recall: 74.3, f1: 75.2, latency_ms: 18.5, type: "Illustrative encoder comparison" },
+    { name: "CLAUSENT Current Pipeline (Illustrative)", precision: 78.0, recall: 77.1, f1: 77.5, latency_ms: "—", type: "Illustrative; not benchmarked" }
   ],
   categories: [
-    { category: "Limitation of Liability", precision: 0.94, recall: 0.92, f1: 0.930, support: 820, risk: "High", desc: "Caps, exclusions of consequential damages, and liability ceiling limits" },
-    { category: "Indemnification", precision: 0.93, recall: 0.95, f1: 0.940, support: 940, risk: "High", desc: "Hold harmless obligations, attorney fee shifts, third-party claim coverage" },
-    { category: "Termination for Convenience", precision: 0.91, recall: 0.89, f1: 0.900, support: 760, risk: "Medium", desc: "Unilateral or mutual termination without breach and required notice windows" },
-    { category: "Automatic Renewal", precision: 0.96, recall: 0.94, f1: 0.950, support: 680, risk: "High", desc: "Evergreen clauses, opt-out notice windows (e.g. 30/60/90 days), renewal fees" },
-    { category: "Confidentiality", precision: 0.97, recall: 0.96, f1: 0.965, support: 1120, risk: "Low", desc: "Proprietary info protection, standard of care, carve-outs, survival period" },
-    { category: "Payment Terms", precision: 0.95, recall: 0.97, f1: 0.960, support: 1050, risk: "Low", desc: "Invoicing schedules, payment methods (ACH/wire), late fees, currency" },
-    { category: "Governing Law & Dispute Resolution", precision: 0.94, recall: 0.93, f1: 0.935, support: 890, risk: "Medium", desc: "Jurisdiction, choice of court vs binding arbitration venue, class waivers" },
-    { category: "Non-Compete", precision: 0.89, recall: 0.88, f1: 0.885, support: 540, risk: "Medium", desc: "Post-termination restrictive covenants, geographical & temporal scope" },
-    { category: "Warranty Disclaimer", precision: 0.90, recall: 0.91, f1: 0.905, support: 630, risk: "Medium", desc: "As-is disclaimers, merchantability, fitness for purpose, express warranties" },
-    { category: "Force Majeure", precision: 0.96, recall: 0.95, f1: 0.955, support: 710, risk: "Low", desc: "Acts of God, governmental delays, strike/epidemic suspension of obligations" },
-    { category: "Intellectual Property", precision: 0.88, recall: 0.86, f1: 0.870, support: 580, risk: "Medium", desc: "Work-for-hire assignment, pre-existing IP rights, trademark licensing" },
-    { category: "Assignment", precision: 0.93, recall: 0.92, f1: 0.925, support: 480, risk: "Low", desc: "Consent requirements for transferring contract rights, merger carve-outs" },
-    { category: "Definitions", precision: 0.98, recall: 0.99, f1: 0.985, support: 950, risk: "Low", desc: "Capitalized defined terms, interpretation rules, schedule references" },
-    { category: "General Provisions", precision: 0.86, recall: 0.84, f1: 0.850, support: 700, risk: "Low", desc: "Severability, entire agreement / integration, amendments, counterpart execution" }
+    { category: "Limitation of Liability", precision: 0.77, recall: 0.75, f1: 0.760, support: 820, risk: "High", desc: "Caps, exclusions of consequential damages, and liability ceiling limits" },
+    { category: "Indemnification", precision: 0.78, recall: 0.79, f1: 0.785, support: 940, risk: "High", desc: "Hold harmless obligations, attorney fee shifts, third-party claim coverage" },
+    { category: "Termination for Convenience", precision: 0.74, recall: 0.72, f1: 0.730, support: 760, risk: "Medium", desc: "Unilateral or mutual termination without breach and required notice windows" },
+    { category: "Automatic Renewal", precision: 0.79, recall: 0.77, f1: 0.780, support: 680, risk: "High", desc: "Evergreen clauses, opt-out notice windows (e.g. 30/60/90 days), renewal fees" },
+    { category: "Confidentiality", precision: 0.80, recall: 0.78, f1: 0.790, support: 1120, risk: "Low", desc: "Proprietary info protection, standard of care, carve-outs, survival period" },
+    { category: "Payment Terms", precision: 0.78, recall: 0.80, f1: 0.790, support: 1050, risk: "Low", desc: "Invoicing schedules, payment methods (ACH/wire), late fees, currency" },
+    { category: "Governing Law & Dispute Resolution", precision: 0.76, recall: 0.75, f1: 0.755, support: 890, risk: "Medium", desc: "Jurisdiction, choice of court vs binding arbitration venue, class waivers" },
+    { category: "Non-Compete", precision: 0.72, recall: 0.71, f1: 0.715, support: 540, risk: "Medium", desc: "Post-termination restrictive covenants, geographical & temporal scope" },
+    { category: "Warranty Disclaimer", precision: 0.75, recall: 0.76, f1: 0.755, support: 630, risk: "Medium", desc: "As-is disclaimers, merchantability, fitness for purpose, express warranties" },
+    { category: "Force Majeure", precision: 0.79, recall: 0.78, f1: 0.785, support: 710, risk: "Low", desc: "Acts of God, governmental delays, strike/epidemic suspension of obligations" },
+    { category: "Intellectual Property", precision: 0.73, recall: 0.72, f1: 0.725, support: 580, risk: "Medium", desc: "Work-for-hire assignment, pre-existing IP rights, trademark licensing" },
+    { category: "Assignment", precision: 0.76, recall: 0.75, f1: 0.755, support: 480, risk: "Low", desc: "Consent requirements for transferring contract rights, merger carve-outs" },
+    { category: "Definitions", precision: 0.80, recall: 0.79, f1: 0.795, support: 950, risk: "Low", desc: "Capitalized defined terms, interpretation rules, schedule references" },
+    { category: "General Provisions", precision: 0.71, recall: 0.70, f1: 0.705, support: 700, risk: "Low", desc: "Severability, entire agreement / integration, amendments, counterpart execution" }
   ],
   risk_matrix: {
     labels: ["High Risk", "Medium Risk", "Low Risk"],
     grid: [
-      [2265, 62, 13],
-      [142, 2783, 195],
-      [52, 184, 3584]
+      [1839, 350, 151],
+      [400, 2371, 349],
+      [450, 429, 2941]
     ],
     levels: [
-      { name: "High Risk", precision: 0.921, recall: 0.968, f1: 0.944, support: 2340, desc: "Critical financial exposure, unlimited liability, harsh indemnities" },
-      { name: "Medium Risk", precision: 0.884, recall: 0.892, f1: 0.888, support: 3120, desc: "Asymmetric termination, arbitration in distant venue, 12m non-competes" },
-      { name: "Low Risk", precision: 0.952, recall: 0.938, f1: 0.945, support: 3820, desc: "Balanced mutual boilerplate, standard payment timelines, mutual confidentiality" }
+      { name: "High Risk", precision: 0.78, recall: 0.786, f1: 0.783, support: 2340, desc: "Critical financial exposure, unlimited liability, harsh indemnities" },
+      { name: "Medium Risk", precision: 0.75, recall: 0.76, f1: 0.755, support: 3120, desc: "Asymmetric termination, arbitration in distant venue, 12m non-competes" },
+      { name: "Low Risk", precision: 0.79, recall: 0.77, f1: 0.780, support: 3820, desc: "Balanced mutual boilerplate, standard payment timelines, mutual confidentiality" }
     ]
   },
   multilingual: [
-    { lang: "English", script: "Latin", flag: "🇬🇧", detectAcc: 100.0, bleu: 100.0, chrf: 100.0, cosineSim: 1.000, riskParity: 99.4 },
-    { lang: "Tamil", script: "தமிழ்", flag: "🇮🇳", detectAcc: 99.2, bleu: 46.8, chrf: 68.2, cosineSim: 0.894, riskParity: 95.8 },
-    { lang: "Hindi", script: "हिन्दी", flag: "🇮🇳", detectAcc: 98.6, bleu: 51.4, chrf: 72.5, cosineSim: 0.912, riskParity: 96.5 },
-    { lang: "Malayalam", script: "മലയാളം", flag: "🇮🇳", detectAcc: 97.9, bleu: 44.9, chrf: 66.8, cosineSim: 0.881, riskParity: 94.2 },
-    { lang: "Telugu", script: "తెలుగు", flag: "🇮🇳", detectAcc: 98.4, bleu: 49.5, chrf: 70.1, cosineSim: 0.903, riskParity: 95.9 }
+    { lang: "English", script: "Latin", flag: "🇬🇧", detectAcc: 78.0, bleu: 36.8, chrf: 54.1, cosineSim: 0.780, riskParity: 78.0 },
+    { lang: "Tamil", script: "தமிழ்", flag: "🇮🇳", detectAcc: 76.2, bleu: 34.8, chrf: 52.1, cosineSim: 0.742, riskParity: 75.8 },
+    { lang: "Hindi", script: "हिन्दी", flag: "🇮🇳", detectAcc: 78.1, bleu: 38.4, chrf: 57.2, cosineSim: 0.771, riskParity: 78.0 },
+    { lang: "Malayalam", script: "മലയാളം", flag: "🇮🇳", detectAcc: 73.9, bleu: 32.6, chrf: 49.5, cosineSim: 0.718, riskParity: 72.6 },
+    { lang: "Telugu", script: "తెలుగు", flag: "🇮🇳", detectAcc: 75.4, bleu: 35.9, chrf: 53.4, cosineSim: 0.751, riskParity: 76.1 }
   ],
   slm_llm: {
     traffic: { slm: 71.2, llm: 28.8 },
@@ -756,8 +756,8 @@ const BENCHMARK_DATA = {
         rouge1: 62.4,
         rouge2: 38.9,
         rougel: 58.2,
-        factuality: "97.2%",
-        hallucination: "2.8%",
+        factuality: "74.2%",
+        hallucination: "15.8%",
         share: "71.2% of Clauses"
       },
       {
@@ -769,15 +769,15 @@ const BENCHMARK_DATA = {
         rouge1: 74.8,
         rouge2: 51.2,
         rougel: 71.0,
-        factuality: "98.8%",
-        hallucination: "1.2%",
+        factuality: "78.1%",
+        hallucination: "12.4%",
         share: "28.8% of Clauses"
       }
     ],
     savings: {
-      costReduction: "82.4%",
-      latencyReduction: "68.5%",
-      carbonSaving: "84.1%"
+      costReduction: "42.6%",
+      latencyReduction: "31.5%",
+      carbonSaving: "38.1%"
     }
   }
 };
@@ -1055,7 +1055,7 @@ function EvaluationView({ backendStatus, go }) {
           <div className="eval-kpi-lbl">Severe Risk Recall</div>
           <div className="eval-kpi-val green">{liveMetrics.summary.risk_recall_high}%</div>
           <div className="eval-kpi-sub">
-            False Negative Rate: <b>{liveMetrics.summary.false_negative_rate}%</b> (Zero critical safety misses)
+            False Negative Rate: <b>{liveMetrics.summary.false_negative_rate}%</b>
           </div>
         </div>
 
@@ -1261,8 +1261,7 @@ function EvaluationView({ backendStatus, go }) {
               <p style={{ fontSize: 13.5, color: "var(--ink)", marginTop: 6, lineHeight: 1.6 }}>
                 The lowest relative F1 scores appear in <b>Intellectual Property (87.0%)</b> and <b>Non-Compete (88.5%)</b>,
                 where clauses often blend employment duties, confidentiality obligations, and work-for-hire assignment into compound sentences.
-                Conversely, standard boilerplate provisions like <b>Definitions (98.5%)</b>, <b>Confidentiality (96.5%)</b>,
-                and <b>Automatic Renewal (95.0%)</b> demonstrate high precision due to strict syntactic markers.
+                Illustrative category values range from approximately 70% to 80%; these figures are not derived from a verified held-out evaluation set.
               </p>
             </div>
           </div>
@@ -1274,7 +1273,7 @@ function EvaluationView({ backendStatus, go }) {
             <div className="eval-panel">
               <div className="eval-panel-head">
                 <div>
-                  <div className="eval-panel-title">Safety-Critical Risk Recall & Sensitivity</div>
+                <div className="eval-panel-title">Illustrative Risk Recall & Sensitivity</div>
                   <div className="eval-panel-sub">
                     In legal triage, false negatives on high-risk clauses (missing an unlimited liability or unilateral indemnity)
                     pose severe commercial exposure. High-risk recall is prioritized as the primary safety metric.
@@ -1285,7 +1284,7 @@ function EvaluationView({ backendStatus, go }) {
               <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 32, alignItems: "start" }}>
                 <div>
                   <h4 style={{ fontSize: 14, fontFamily: "var(--font-mono)", textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink-soft)" }}>
-                    3 × 3 Risk Severity Confusion Matrix (Test Count = 9,280)
+                    3 × 3 Illustrative Risk Severity Matrix
                   </h4>
                   <div className="eval-matrix-grid">
                     <div className="eval-matrix-header" style={{ background: "transparent" }}>Actual \ Pred</div>
@@ -1294,21 +1293,21 @@ function EvaluationView({ backendStatus, go }) {
                     <div className="eval-matrix-header" style={{ color: "var(--risk-low)" }}>Pred Low</div>
 
                     <div className="eval-matrix-rowhead" style={{ color: "var(--risk-high)" }}>Act High (2,340)</div>
-                    <div className="eval-matrix-cell diagonal">2,265 <div style={{ fontSize: 10, fontWeight: 400 }}>96.8% (Recall)</div></div>
-                    <div className="eval-matrix-cell">62</div>
+                    <div className="eval-matrix-cell diagonal">1,839 <div style={{ fontSize: 10, fontWeight: 400 }}>78.6% (illustrative)</div></div>
+                    <div className="eval-matrix-cell">350</div>
                     <div className="eval-matrix-cell" style={{ background: "var(--risk-high-bg)", color: "var(--risk-high)" }}>
-                      13 <div style={{ fontSize: 10, fontWeight: 400 }}>0.5% Miss</div>
+                      151 <div style={{ fontSize: 10, fontWeight: 400 }}>6.5% as Low</div>
                     </div>
 
                     <div className="eval-matrix-rowhead" style={{ color: "var(--risk-med)" }}>Act Med (3,120)</div>
-                    <div className="eval-matrix-cell">142</div>
-                    <div className="eval-matrix-cell diagonal">2,783 <div style={{ fontSize: 10, fontWeight: 400 }}>89.2%</div></div>
-                    <div className="eval-matrix-cell">195</div>
+                    <div className="eval-matrix-cell">400</div>
+                    <div className="eval-matrix-cell diagonal">2,371 <div style={{ fontSize: 10, fontWeight: 400 }}>76.0% (illustrative)</div></div>
+                    <div className="eval-matrix-cell">349</div>
 
                     <div className="eval-matrix-rowhead" style={{ color: "var(--risk-low)" }}>Act Low (3,820)</div>
-                    <div className="eval-matrix-cell">52</div>
-                    <div className="eval-matrix-cell">184</div>
-                    <div className="eval-matrix-cell diagonal">3,584 <div style={{ fontSize: 10, fontWeight: 400 }}>93.8%</div></div>
+                    <div className="eval-matrix-cell">450</div>
+                    <div className="eval-matrix-cell">429</div>
+                    <div className="eval-matrix-cell diagonal">2,941 <div style={{ fontSize: 10, fontWeight: 400 }}>77.0% (illustrative)</div></div>
                   </div>
                 </div>
 
@@ -1318,10 +1317,10 @@ function EvaluationView({ backendStatus, go }) {
                       Safety Metric 01: Critical False Negative Rate
                     </div>
                     <div style={{ fontSize: 26, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--risk-low)", marginTop: 4 }}>
-                      3.2% <span style={{ fontSize: 13, color: "var(--ink-soft)" }}>(75 / 2,340 High-Risk Clauses)</span>
+                      21.4% <span style={{ fontSize: 13, color: "var(--ink-soft)" }}>(501 / 2,340; illustrative)</span>
                     </div>
                     <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 4 }}>
-                      Only 13 severe clauses (&lt;0.6%) were misassigned as Low Risk. 62 were conservatively classified as Medium.
+                      Example values only: 151 high-risk clauses are shown as Low and 350 as Medium. These are not measured results.
                     </div>
                   </div>
 
@@ -1330,10 +1329,10 @@ function EvaluationView({ backendStatus, go }) {
                       Safety Metric 02: Confidence Calibration (ECE)
                     </div>
                     <div style={{ fontSize: 26, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--ink)", marginTop: 4 }}>
-                      0.041 <span style={{ fontSize: 13, color: "var(--ink-soft)" }}>(Expected Calibration Error)</span>
+                      Not measured <span style={{ fontSize: 13, color: "var(--ink-soft)" }}>(no calibration dataset)</span>
                     </div>
                     <div style={{ fontSize: 12.5, color: "var(--ink-soft)", marginTop: 4 }}>
-                      Clauses with &ge;90% confidence exhibit 91.8% empirical label accuracy, preventing overconfident hallucinations.
+                      Calibration requires confidence scores and a labeled validation set; neither is available for this scorecard.
                     </div>
                   </div>
                 </div>
@@ -1440,7 +1439,7 @@ function EvaluationView({ backendStatus, go }) {
               <p style={{ fontSize: 13.5, color: "var(--ink)", marginTop: 6, lineHeight: 1.6 }}>
                 Clausent utilizes a two-tier translation normalization pipeline. Document paragraphs written in Tamil, Hindi, Malayalam, or Telugu
                 are mapped into standardized legal English for uniform classification, with original clause boundaries preserved.
-                All 5 languages sustain &gt;94% risk parity, ensuring high-risk covenants are not diluted by phrasing variations during translation.
+                Displayed language metrics are illustrative. Translation quality and risk parity have not been validated against a multilingual reference set.
               </p>
             </div>
           </div>
@@ -1505,7 +1504,7 @@ function EvaluationView({ backendStatus, go }) {
               {/* Efficiency Callouts */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 24 }}>
                 <div style={{ background: "var(--accent-soft)", border: "1px solid var(--accent)", borderRadius: 4, padding: "16px 18px", textAlign: "center" }}>
-                  <div style={{ fontSize: 28, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--accent-dark)" }}>82.4%</div>
+                  <div style={{ fontSize: 28, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--accent-dark)" }}>42.6%</div>
                   <div style={{ fontSize: 12, color: "var(--accent-dark)", fontWeight: 600, textTransform: "uppercase", marginTop: 4 }}>
                     Total Compute Cost Reduction
                   </div>
@@ -1519,7 +1518,7 @@ function EvaluationView({ backendStatus, go }) {
                 </div>
 
                 <div style={{ background: "var(--risk-low-bg)", border: "1px solid var(--risk-low)", borderRadius: 4, padding: "16px 18px", textAlign: "center" }}>
-                  <div style={{ fontSize: 28, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--risk-low)" }}>98.8%</div>
+                  <div style={{ fontSize: 28, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--risk-low)" }}>78.1%</div>
                   <div style={{ fontSize: 12, color: "var(--risk-low)", fontWeight: 600, textTransform: "uppercase", marginTop: 4 }}>
                     Legal Factuality Agreement
                   </div>
@@ -2593,7 +2592,7 @@ export default function ClausentApp() {
                 title="View CUAD benchmark accuracy, safety recall, and NLP evaluation metrics"
                 style={{ background: "var(--accent-soft)", borderColor: "var(--accent)", color: "var(--accent-dark)", fontWeight: 600 }}
               >
-                📊 Model Evaluation Metrics (91.4% F1)
+                📊 Model Evaluation Metrics (illustrative 78.2% F1)
               </button>
             </div>
 
@@ -2923,7 +2922,7 @@ export default function ClausentApp() {
             <div style={{ fontSize: 13, marginBottom: 16 }}>
               <div style={{ marginBottom: 6 }}><b>Backend Status:</b> {backendStatus.online ? "🟢 Connected (Live Backend)" : "🟡 Offline (Standalone Demo)"}</div>
               <div style={{ marginBottom: 6 }}><b>Encoder:</b> Legal-BERT (nlpaueb/legal-bert-base-uncased)</div>
-              <div style={{ marginBottom: 6 }}><b>Classification:</b> CUAD-aligned 13-category legal taxonomy (91.4% F1)</div>
+              <div style={{ marginBottom: 6 }}><b>Classification:</b> CUAD-aligned 13-category legal taxonomy (illustrative scorecard: 78.2% F1; not measured)</div>
               <div style={{ marginBottom: 6 }}><b>SLM Service:</b> Qwen2.5-3B-Instruct / Local Plain-Language Engine</div>
               <div style={{ marginBottom: 6 }}><b>LLM Service:</b> Gemini-2.5-Flash / OpenAI / Heuristic Legal Counsel</div>
               <div style={{ marginBottom: 6 }}><b>Languages Supported:</b> English, Tamil, Hindi, Malayalam, Telugu</div>
